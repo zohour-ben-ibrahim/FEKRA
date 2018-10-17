@@ -1,0 +1,155 @@
+{% extends 'message.html.twig' %}
+
+{% block user_chat %}
+    {% set receve = '' %}
+    {% for participant in thread.participants %}
+        {% if participant.username != username %}
+            {% set receve = participant.username %}
+        {% endif %}
+    {% endfor %}
+    <h5 class="text-capitalize">{{receve}}</h5><i class="fas fa-dot-circle mx-4" style="color: #78ff3f"></i>
+
+{% endblock %}
+
+{% block fos_message_content %}
+    <div id="discussionDiv">
+
+
+
+       {% for message in thread.messages %}
+
+           {% if message.sender == username %}
+               <div class="d-flex flex-row-reverse">
+                   <div class="d-flex flex-column">
+                       <div class="d-flex justify-content-end">
+                       <p class="small mt-3 mb-0">{{message.createdAt|date}}</p>
+                       </div>
+                       <span class="text-right sent">{{ message.body }}</span>
+                   </div>
+               </div>
+           {% else %}
+               <div class="d-flex flex-row">
+                   <div class="d-flex flex-column">
+                       <div class="d-flex justify-content-end">
+                       <p class="small mt-3 mb-0">{{message.createdAt|date}}</p>
+                       </div>
+                       <span class="receive">{{ message.body }}</span>
+                   </div>
+               </div>
+           {% endif %}
+       {% endfor %}
+   </div>
+
+{% endblock %}
+
+    {% block message_reply %}
+        <form action="javascript:void(0)" method="post" class="input-group" id="reply_form">
+            {{ form_widget(form.body,{
+                'attr':{'class':'form-control border-secondary search','placeholder':'Écrivez un message..'}
+            }) }}
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" onclick="add()" id="btn-add">
+                    <i class="far fa-share-square"></i>
+                </button>
+            </div>
+            {{ form_rest(form) }}
+        </form>
+    {% endblock %}
+
+{% block ajax %}
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        var messageBody = document.querySelector('#msg_content');
+        messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
+
+        function add(){
+            var form = document.getElementById("reply_form");
+            var formData = new FormData(form);
+            var threadId = {{ thread.id }}
+                $.ajax({
+                    url: "{{ path('fos_message_thread_view', {'threadId': thread.id})}}",
+                    data: formData,
+                    type: 'POST',
+                    cache: false,
+                    processData: false,
+                    contentType: false
+                }).done(function (response) {
+
+
+
+
+                    $('#discussionDiv').html(response);
+                    var messageBody = document.querySelector('#msg_content');
+                    messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
+
+                    document.getElementById('message_body').value="" ;
+
+                });
+        }
+
+
+    setInterval(function(){
+
+        var threadId = {{ thread.id }}
+        $.ajax({
+            url: "{{ path('discussion_message')}}",
+            data: {threadId: threadId},
+            type: 'POST',
+            cache: false
+        }).done(function (response) {
+
+            $('#discussionDiv').html(response);
+
+
+        });
+    },5000)
+
+        $( document ).ready(function() {
+            var input = document.getElementById("message_body");
+
+            // Execute a function when the user releases a key on the keyboard
+            input.addEventListener("keyup", function(event) {
+
+                // Number 13 is the "Enter" key on the keyboard
+                if (event.keyCode === 13) {
+                    // Trigger the button element with a click
+                    document.getElementById("btn-add").click();
+                }
+            });
+        });
+
+
+
+
+</script>
+{% endblock %}
+
+{% block disc_list %}
+    {% if threads %}
+        {% for threadRow in threads %}
+            {% set receve = '' %}
+            {% set lastLogin = '' %}
+            {% for participant in threadRow.participants %}
+                {% if participant.username != username %}
+                    {% set receve = participant.username %}
+                    {% set lastLogin = participant.lastLogin %}
+                {% endif %}
+            {% endfor %}
+            <a href="{{ url('fos_message_thread_view', {'threadId': threadRow.id}) }}" {% if threadRow.id == thread.id %} style="background-color: #D3D3D3;" {% endif %}>
+                <li class="list-group-item text-capitalize d-flex p-2 my-2 bg-transparent message_bg">
+                    <div class="side_img mx-2">
+                        <img class="rounded-circle" src="{{ asset('img/default-user.png') }}" alt="idea_logo">
+                    </div>
+                    <div class="mr-3" style="width: 280px">
+                        <p class="small mb-1"><h6>{{receve}}</h6></p>
+                        <p class="small mb-1">{{ (threadRow.messages|last.body)|truncate(30, false, '...') }}</p>
+                    </div>
+                    <div class="ml-4">
+                        <i class="fas fa-ellipsis-h  d-flex justify-content-end"></i>
+                        <p class="small mb-0">{{ (threadRow.messages|last.createdAt)|ago }}</p>
+                    </div>
+                </li>
+            </a>
+        {% endfor %}
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,22 @@
+adea:
+    resource: "@adeaBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+
+# app/config/routing.yml
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation
+
+fos_message:
+    resource: "@FOSMessageBundle/Resources/config/routing.xml"
+    prefix: /messages
+
+discussion_message:
+    path:     /discussion/
+    defaults: { _controller: FOSMessageBundle:Message:discussion}
+    methods:  POST

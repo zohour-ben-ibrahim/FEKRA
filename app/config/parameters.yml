@@ -1,0 +1,12 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_host: 127.0.0.1
+    database_port: null
+    database_name: fekra
+    database_user: root
+    database_password: null
+    mailer_transport: gmail
+    mailer_host: null
+    mailer_user: fekra.noreply@gmail.com
+    mailer_password: fekra123456
+    secret: ba79feb14d0f45512acb15bc5ebbccd22c50dc25

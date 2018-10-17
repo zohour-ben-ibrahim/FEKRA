@@ -1,0 +1,116 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Zohour
+ * Date: 23/08/2018
+ * Time: 21:05
+ */
+
+?>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>Sin-Up</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="img/icon.png"/>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/font-awesome/fonts/iconic/css/material-design-iconic-font.min.css')}}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/util.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/main.css') }}">
+    <!--===============================================================================================-->
+</head>
+<body>
+
+
+<div class="container-login100">
+    <div class="wrap-login100 p-l-55 p-r-55 p-t-80 p-b-30">
+
+        <img src="{{ asset('img/logo.png')}}" class="logo">
+        {% block body %}
+        <form class="login100-form validate-form" action="../Controller/FinaliserInscript.php" method="POST">
+				<span class="login100-form-title p-b-37">
+Inscrivez-vous
+				</span>
+
+            <div class="form-group">
+                <label for="name" class="cols-sm-2 control-label">Nom</label>
+                <div class="cols-sm-10">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+                        <input type="text" class="form-control" name="nom" id="nom"  placeholder="Nom " required />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="username" class="cols-sm-2 control-label">Prenom</label>
+                <div class="cols-sm-10">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-users fa" aria-hidden="true"></i></span>
+                        <input type="text" class="form-control" name="prenom" id="username"  placeholder="Prenom" required />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="email" class="cols-sm-2 control-label">Adresse mail</label>
+                <div class="cols-sm-10">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true" ></i></span>
+                        <input type="email" class="form-control" name="email" id="email"  placeholder="adresse mail" required />
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                <label for="password" class="cols-sm-2 control-label">Mot de passe</label>
+                <div class="cols-sm-10">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                        <input type="password" class="form-control" name="password" id="password"  placeholder="Mot de passe" required />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="confirm" class="cols-sm-2 control-label">Confirmer mot de passe</label>
+                <div class="cols-sm-10">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                        <input type="password" class="form-control" name="confirm" id="confirm"  placeholder="Confirmer mot de passe" required />
+                    </div>
+                </div>
+            </div>
+
+            <div class="container-login100-form-btn">
+                <button class="login100-form-btn" name="submit">
+                    Valider
+                </button>
+            </div>
+
+
+
+
+        </form>
+{% endblock %}
+
+    </div>
+</div>
+
+
+
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+
+
+
+</body>
+</html>

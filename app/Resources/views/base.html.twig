@@ -1,0 +1,126 @@
+<?php
+?>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" type="image/png" href="img/icon.png"/>
+    <title>Fekra</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+
+</head>
+<body>
+{% block navbar %}
+<nav class="navbar navbar-expand-lg navbar-light justify-content-between fixed-top p-0">
+    <div class="navbar-brand dis-flex flex-row">
+        <a href="#"><img src="{{ asset('img/logo.png') }}" alt="idea_logo" width="100px"></a>
+        {% block profilePic %}<a class="profile_pic" href="profile"><img class="rounded-circle " src="{{ asset('img/pic.jpg') }}" alt="idea_logo"></a> {% endblock %}    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="menu">
+        <ul class="navbar-nav mt-2 mt-lg-0 px-5 ml-auto d-flex d-flex align-items-end">
+            <li class="nav-item active ">
+                <a class="nav-link text-capitalize" href="home"><i class="fas fa-home mx-1"></i>Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-capitalize text-white" href="profile"><i class="fas fa-user mx-1"></i>Profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-capitalize text-white" href="friends"><i class="fas fa-users mx-1"></i>Friends</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-capitalize text-white" href="messages/1"><i class="fab fa-facebook-messenger mx-1"></i>Messages</a>
+            </li>
+
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown"></a>
+                <div class="dropdown-menu">
+
+                    <a class="dropdown-item" href="#"><i class="fas fa-cogs  mx-1 small"></i>Settings</a>
+                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                        {#<p class="navbar-text">#}
+                        {#{{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}#}
+                        {#</p>#}
+
+                        <a class="dropdown-item border-top mt-2" href="{{ path('fos_user_security_logout') }}"><i class="fas fa-sign-out-alt mx-1 small"></i>
+                            {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                        </a>
+
+                    {% else %}
+
+                        <a class="dropdown-item  border-top mt-2" href="{{ path('fos_user_security_login') }}"><i class="fas fa-sign-in-alt mx-1 small"></i>{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+
+                    {% endif %}
+
+                </div>
+
+        </ul>
+
+        <form class="form-inline my-2 my-lg-0 d-flex justify-content-end">
+            <input class="form-control mr-sm-2 bg-transparent py-0" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn bg-transparent my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
+        </form>
+    </div>
+</nav>
+{% endblock %}
+<div class=" d-flex justify-content-center flex-nowrap">
+    <div class="row col-10 m-0 main">
+        {%  block sideBare %}
+
+        {% endblock %}
+        <div class="col-5 news_feed_bar mx-3 px-0" >
+
+            {% block post %}
+                {# ici on va lister les posts (les idées) #}
+            {% endblock %}
+
+
+        </div>
+
+        <div class="col-3 side_bar-right mx-3 px-0">
+            <div class="right_card">
+                <div class="card-header">
+                    Featured Post
+                </div>
+                {% block featured %}
+                    {#ici on va mettre les meilleures idées de tous le monde#}
+                {% endblock %}
+                <div class="card-header">
+                    Recent Post
+                </div>
+                {% block recent %}
+                    {#ici on va lister les idées les plus recentes des amis #}
+                {% endblock %}
+            </div>
+        </div>
+
+    </div>
+</div>
+{%  block addidea %}
+    {#ici on met le bouton ajouter idée + le modal associé#}
+{% endblock %}
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript" src="js/homejs.js"></script>
+<!-- Bootstrap js -->
+<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+<!-- Propeller Global js -->
+<script src="http://propeller.in/components/global/js/global.js"></script>
+
+<!-- Propeller ripple effect js -->
+<script type="text/javascript" src="http://propeller.in/components/button/js/ripple-effect.js"></script>
+
+<!-- Propeller modal js -->
+<script type="text/javascript" src="http://propeller.in/components/modal/js/modal.js"></script>
+</body>
+</html>

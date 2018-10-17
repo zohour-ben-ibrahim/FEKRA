@@ -1,0 +1,23 @@
+
+{% for message in thread.messages %}
+
+    {% if message.sender == username %}
+        <div class="d-flex flex-row-reverse">
+            <div class="d-flex flex-column">
+                <div class="d-flex justify-content-end">
+                <p class="small mt-3 mb-0">{{message.createdAt|date}}</p>
+                </div>
+                <span class="text-right sent">{{ message.body }}</span>
+            </div>
+        </div>
+    {% else %}
+        <div class="d-flex flex-row">
+            <div class="d-flex flex-column">
+                <div class="d-flex justify-content-end">
+                <p class="small mt-3 mb-0">{{message.createdAt|date}}</p>
+                </div>
+                <span class="receive">{{ message.body }}</span>
+            </div>
+        </div>
+    {% endif %}
+{% endfor %}
