@@ -1,0 +1,185 @@
+{% extends 'base.html.twig' %}
+{% block navbar %}
+    <nav class="navbar navbar-expand-lg navbar-light justify-content-between fixed-top p-0" style="background-color: #4b2354 !important;">
+        <div class="navbar-brand dis-flex flex-row">
+            <a href="#"><img src="img/logo.png" alt="idea_logo" width="100px"></a>
+            {% block profilePic %}<a class="profile_pic" href="profile"><img class="rounded-circle " src="{{ asset('img/pic.jpg') }}" alt="idea_logo"></a> {% endblock %}        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="menu">
+            <ul class="navbar-nav mt-2 mt-lg-0 px-5 ml-auto d-flex d-flex align-items-end">
+                <li class="nav-item">
+                    <a class="nav-link text-capitalize text-white" href="home"><i class="fas fa-home mx-1"></i>Home </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-capitalize text-white" href="profile"><i class="fas fa-user mx-1"></i>Profile</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link text-capitalize" href="friends"><i class="fas fa-users mx-1"></i>Friends<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-capitalize text-white" href="messages/1"><i class="fab fa-facebook-messenger mx-1"></i>Messages</a>
+                </li>
+
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown"></a>
+                    <div class="dropdown-menu">
+
+                        <a class="dropdown-item" href="#"><i class="fas fa-cogs  mx-1 small"></i>Settings</a>
+                        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                            {#<p class="navbar-text">#}
+                            {#{{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}#}
+                            {#</p>#}
+
+                            <a class="dropdown-item border-top mt-2" href="{{ path('fos_user_security_logout') }}"><i class="fas fa-sign-out-alt mx-1 small"></i>
+                                {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                            </a>
+
+                        {% else %}
+
+                            <a class="dropdown-item  border-top mt-2" href="{{ path('fos_user_security_login') }}"><i class="fas fa-sign-in-alt mx-1 small"></i>{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+
+                        {% endif %}
+
+                    </div>
+
+            </ul>
+
+            <form class="form-inline my-2 my-lg-0 d-flex justify-content-end">
+                <input class="form-control mr-sm-2 bg-transparent py-0" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn bg-transparent my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
+            </form>
+        </div>
+    </nav>
+{% endblock %}
+{%  block sideBare %}
+    <div class="col-2 side_bar-left mx-3 px-0">
+        <div class="left_card">
+            <ul class="nav nav-tabs d-flex flex-column">
+                <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#followers"><i class="fas fa-user-friends"></i>Followers</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#followings"><i class="fas fa-user-friends"></i>Followings</a></li>
+            </ul>
+        </div>
+    </div>
+{%  endblock%}
+
+{% block post %}
+<div class="tab-content">
+    <div id="followers" class="container tab-pane active"><br>
+        <div class="list-group">
+            <a href="#" class="list-group-item disabled">Followers list ( {{ followers|length }})</a>
+
+
+        {% for item in followers%}
+            {% set follower=item[0] %}
+            {%  set follow =item[1] %}
+
+            <a href="{{ path('profil',{'user':follower.follower.getId()}) }}" class="list-group-item">{{ follower.following}}</a>
+            {% if follow == 0 %}
+            <a href="{{ path('addFollowing',{'following':follower.follower.getId()}) }}" ></a> <button class="btn btn-primary">Follow</button></div>
+            {% endif  %}
+        {% else %}
+            <a href="#" class="list-group-item disabled"></a>
+
+        {% endfor %}
+        </div>
+    </div>
+    <div id="followings" class="container tab-pane fade"><br>
+        <div class="list-group">
+            <a href="#" class="list-group-item disabled">Followings list  ( {{ followings|length }})</a>
+
+
+            {% for following in followings%}
+
+                <a href="{{ path('profil',{'user':following.following.getId()}) }}" class="list-group-item">{{ following.follower }}</a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+  {% block featured %}
+      <ul class="list-group list-group-flush">
+          <li class="list-group-item text-capitalize d-flex p-2">
+              <div class="side_img mr-2">
+                  <a href="#" class="side_img"><img class="rounded-circle" src="img/pic.jpg" alt="idea_logo"></a>
+              </div>
+              <div>
+                  <p class="small mb-1">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                  <p class="small mb-0">2 days ago</p>
+              </div>
+          </li>
+          <li class="list-group-item text-capitalize d-flex p-2">
+              <div class="side_img mr-2">
+                  <a href="#" class="side_img"><img class="rounded-circle" src="img/pic.jpg" alt="idea_logo"></a>
+              </div>
+              <div>
+                  <p class="small mb-1">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                  <p class="small mb-0">2 days ago</p>
+              </div>
+          </li>
+          <li class="list-group-item text-capitalize d-flex p-2">
+              <div class="side_img mr-2">
+                  <a href="#" class="side_img"><img class="rounded-circle" src="img/pic.jpg" alt="idea_logo"></a>
+              </div>
+              <div>
+                  <p class="small mb-1">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                  <p class="small mb-0">2 days ago</p>
+              </div>
+          </li>
+          <li class="list-group-item text-capitalize d-flex p-2">
+              <div class="side_img mr-2">
+                  <a href="#" class="side_img"><img class="rounded-circle" src="img/pic.jpg" alt="idea_logo"></a>
+              </div>
+              <div>
+                  <p class="small mb-1">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                  <p class="small mb-0">2 days ago</p>
+              </div>
+          </li>
+      </ul>
+  {% endblock %}
+
+ {% block recent %}
+     <ul class="list-group list-group-flush">
+         <li class="list-group-item text-capitalize d-flex p-2">
+             <div class="side_img mr-2">
+                 <a href="#" class="side_img"><img class="rounded-circle" src="img/pic1.jpeg" alt="idea_logo"></a>
+             </div>
+             <div>
+                 <p class="small mb-1">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                 <p class="small mb-0">2 days ago</p>
+             </div>
+         </li>
+         <li class="list-group-item text-capitalize d-flex p-2">
+             <div class="side_img mr-2">
+                 <a href="#" class="side_img"><img class="rounded-circle" src="img/pic1.jpeg" alt="idea_logo"></a>
+             </div>
+             <div>
+                 <p class="small mb-1">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                 <p class="small mb-0">2 days ago</p>
+             </div>
+         </li>
+         <li class="list-group-item text-capitalize d-flex p-2">
+             <div class="side_img mr-2">
+                 <a href="#" class="side_img"><img class="rounded-circle" src="img/pic1.jpeg" alt="idea_logo"></a>
+             </div>
+             <div>
+                 <p class="small mb-1">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                 <p class="small mb-0">2 days ago</p>
+             </div>
+         </li>
+         <li class="list-group-item text-capitalize d-flex p-2">
+             <div class="side_img mr-2">
+                 <a href="#" class="side_img"><img class="rounded-circle" src="img/pic1.jpeg" alt="idea_logo"></a>
+             </div>
+             <div>
+                 <p class="small mb-1">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                 <p class="small mb-0">2 days ago</p>
+             </div>
+         </li>
+     </ul>
+ {% endblock %}

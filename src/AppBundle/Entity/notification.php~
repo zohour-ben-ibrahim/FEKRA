@@ -1,0 +1,84 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * notification
+ *
+ * @ORM\Table(name="notification")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\notificationRepository")
+ */
+class notification
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     */
+    private $User;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="content", type="string", length=300)
+     */
+
+    private $content;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="notifDate", type="datetime", length=300)
+     */
+
+    private $notifDate;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="status", type="boolean")
+     */
+    private $status;
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set content
+     *
+     * @param string $content
+     *
+     * @return notification
+     */
+    public function setContent($content)
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+    /**
+     * Get content
+     *
+     * @return string
+     */
+    public function getContent()
+    {
+        return $this->content;
+    }
+}
+
